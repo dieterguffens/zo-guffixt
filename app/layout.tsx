@@ -130,9 +130,6 @@ export default function RootLayout({
               <Link href="/#contact" style={navLinkStyle}>
                 Contact
               </Link>
-              <Link href="/studio" style={navLinkStyle}>
-                Studio
-              </Link>
             </nav>
           </div>
         </header>

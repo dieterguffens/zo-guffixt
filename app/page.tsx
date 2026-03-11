@@ -93,21 +93,6 @@ export default async function Home() {
           }}
         >
           <div>
-            <div
-              style={{
-                display: 'inline-block',
-                padding: '8px 14px',
-                borderRadius: 999,
-                background: '#1a1a1c',
-                border: '1px solid #2a2a2c',
-                fontSize: 13,
-                color: '#bdbdbd',
-                marginBottom: 22,
-              }}
-            >
-              Zo Guffixt · Kinrooi (Geistingen)
-            </div>
-
             <h1
               style={{
                 fontSize: 64,
@@ -115,6 +100,8 @@ export default async function Home() {
                 letterSpacing: -1.5,
                 margin: '0 0 20px 0',
                 maxWidth: 700,
+                color: '#8df0a1',
+                fontWeight: 800,
               }}
             >
               Kwalitatieve buitenaanleg zonder compromissen.
@@ -127,6 +114,7 @@ export default async function Home() {
                 fontSize: 19,
                 lineHeight: 1.8,
                 margin: 0,
+                textAlign: 'justify',
               }}
             >
               Zo Guffixt realiseert klinkerwerken, megategels, kiezels,
@@ -221,6 +209,8 @@ export default async function Home() {
             fontSize: 38,
             margin: '0 0 26px 0',
             letterSpacing: -0.6,
+            color: '#8df0a1',
+            fontWeight: 800,
           }}
         >
           Diensten
@@ -265,6 +255,7 @@ export default async function Home() {
                     lineHeight: 1.8,
                     fontSize: 15,
                     margin: 0,
+                    textAlign: 'justify',
                   }}
                 >
                   {service.shortDescription}
@@ -276,148 +267,151 @@ export default async function Home() {
       </section>
 
       {/* PROJECTEN */}
-     <section
-  id="projecten"
-  style={{
-    maxWidth: 1200,
-    margin: '0 auto',
-    padding: '8px 24px 64px 24px',
-  }}
->
-  <h2
-    style={{
-      fontSize: 38,
-      margin: '0 0 26px 0',
-      letterSpacing: -0.6,
-    }}
-  >
-    Projecten
-  </h2>
-
-  <div
-    style={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-      gap: 22,
-    }}
-  >
-    {projects.map((project: any) => (
-      <Link
-        key={project._id}
-        href={`/projecten/${project.slug?.current}`}
-        style={{ textDecoration: 'none', color: 'inherit' }}
+      <section
+        id="projecten"
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: '8px 24px 64px 24px',
+        }}
       >
-        <article
+        <h2
           style={{
-            background: '#171718',
-            border: '1px solid #262628',
-            borderRadius: 22,
-            overflow: 'hidden',
-            height: '100%',
+            fontSize: 38,
+            margin: '0 0 26px 0',
+            letterSpacing: -0.6,
+            color: '#8df0a1',
+            fontWeight: 800,
           }}
         >
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: 2,
-              background: '#101010',
-            }}
-          >
-            {project.beforeImages?.[0] ? (
-              <img
-                src={urlFor(project.beforeImages[0]).width(900).url()}
-                alt={`Voor ${project.title}`}
-                style={{
-                  width: '100%',
-                  aspectRatio: '4 / 3',
-                  objectFit: 'cover',
-                  display: 'block',
-                }}
-              />
-            ) : (
-              <div
-                style={{
-                  width: '100%',
-                  aspectRatio: '4 / 3',
-                  background: '#222',
-                }}
-              />
-            )}
+          Projecten
+        </h2>
 
-            {project.afterImages?.[0] ? (
-              <img
-                src={urlFor(project.afterImages[0]).width(900).url()}
-                alt={`Na ${project.title}`}
-                style={{
-                  width: '100%',
-                  aspectRatio: '4 / 3',
-                  objectFit: 'cover',
-                  display: 'block',
-                }}
-              />
-            ) : (
-              <div
-                style={{
-                  width: '100%',
-                  aspectRatio: '4 / 3',
-                  background: '#222',
-                }}
-              />
-            )}
-          </div>
-
-          <div style={{ padding: 22 }}>
-            <div
-              style={{
-                color: '#9f9f9f',
-                fontSize: 12,
-                textTransform: 'uppercase',
-                letterSpacing: 1,
-                marginBottom: 10,
-              }}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 22,
+          }}
+        >
+          {projects.map((project: any) => (
+            <Link
+              key={project._id}
+              href={`/projecten/${project.slug?.current}`}
+              style={{ textDecoration: 'none', color: 'inherit' }}
             >
-              {project.category}
-            </div>
+              <article
+                style={{
+                  background: '#171718',
+                  border: '1px solid #262628',
+                  borderRadius: 22,
+                  overflow: 'hidden',
+                  height: '100%',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: 2,
+                    background: '#101010',
+                  }}
+                >
+                  {project.beforeImages?.[0] ? (
+                    <img
+                      src={urlFor(project.beforeImages[0]).width(900).url()}
+                      alt={`Voor ${project.title}`}
+                      style={{
+                        width: '100%',
+                        aspectRatio: '4 / 3',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: '100%',
+                        aspectRatio: '4 / 3',
+                        background: '#222',
+                      }}
+                    />
+                  )}
 
-            <h3
-              style={{
-                fontSize: 24,
-                fontWeight: 800,
-                margin: '0 0 10px 0',
-                letterSpacing: -0.3,
-              }}
-            >
-              {project.title}
-            </h3>
+                  {project.afterImages?.[0] ? (
+                    <img
+                      src={urlFor(project.afterImages[0]).width(900).url()}
+                      alt={`Na ${project.title}`}
+                      style={{
+                        width: '100%',
+                        aspectRatio: '4 / 3',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: '100%',
+                        aspectRatio: '4 / 3',
+                        background: '#222',
+                      }}
+                    />
+                  )}
+                </div>
 
-            <p
-              style={{
-                color: '#c8c8c8',
-                lineHeight: 1.8,
-                fontSize: 15,
-                margin: 0,
-              }}
-            >
-              {project.description}
-            </p>
+                <div style={{ padding: 22 }}>
+                  <div
+                    style={{
+                      color: '#9f9f9f',
+                      fontSize: 12,
+                      textTransform: 'uppercase',
+                      letterSpacing: 1,
+                      marginBottom: 10,
+                    }}
+                  >
+                    {project.category}
+                  </div>
 
-            <div
-              style={{
-                marginTop: 16,
-                color: '#8df0a1',
-                fontWeight: 700,
-                fontSize: 14,
-              }}
-            >
-              Bekijk project →
-            </div>
-          </div>
-        </article>
-      </Link>
-    ))}
-  </div>
-</section>
+                  <h3
+                    style={{
+                      fontSize: 24,
+                      fontWeight: 800,
+                      margin: '0 0 10px 0',
+                      letterSpacing: -0.3,
+                    }}
+                  >
+                    {project.title}
+                  </h3>
+
+                  <p
+                    style={{
+                      color: '#c8c8c8',
+                      lineHeight: 1.8,
+                      fontSize: 15,
+                      margin: 0,
+                      textAlign: 'justify',
+                    }}
+                  >
+                    {project.description}
+                  </p>
+
+                  <div
+                    style={{
+                      marginTop: 16,
+                      color: '#8df0a1',
+                      fontWeight: 700,
+                      fontSize: 14,
+                    }}
+                  >
+                    Bekijk project →
+                  </div>
+                </div>
+              </article>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {/* CONTACT */}
       <section
@@ -441,6 +435,8 @@ export default async function Home() {
               fontSize: 38,
               margin: '0 0 26px 0',
               letterSpacing: -0.6,
+              color: '#8df0a1',
+              fontWeight: 800,
             }}
           >
             Contact
