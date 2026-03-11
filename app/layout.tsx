@@ -28,14 +28,14 @@ export const metadata = {
   openGraph: {
     title: 'Zo Guffixt',
     description:
-      'Klinkerwerken, megategels, kiezels en buitenaanleg in Kinrooi.',
+      'Klinkerwerken, keerwanden, megategels en kiezels in Kinrooi.',
     url: 'https://zoguffixt.be',
     siteName: 'Zo Guffixt',
     locale: 'nl_BE',
     type: 'website',
     images: [
       {
-        url: '/og-image.jpg',
+        url: 'https://zoguffixt.be/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Zo Guffixt buitenaanleg',
@@ -47,8 +47,8 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Zo Guffixt',
     description:
-      'Klinkerwerken, megategels, kiezels en buitenaanleg in Kinrooi.',
-    images: ['/og-image.jpg'],
+      'Klinkerwerken, keerwanden, megategels en kiezels in Kinrooi.',
+    images: ['https://zoguffixt.be/og-image.jpg'],
   },
 }
 
