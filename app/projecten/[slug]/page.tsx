@@ -47,9 +47,38 @@ export async function generateMetadata({
     }
   }
 
+  const image =
+    project.afterImages?.[0] ||
+    project.beforeImages?.[0] ||
+    project.gallery?.[0]
+
+  const imageUrl = image
+    ? urlFor(image).width(1200).height(630).url()
+    : 'https://zoguffixt.be/og-image.jpg'
+
   return {
     title: `${project.title} | Zo Guffixt`,
     description: project.description || 'Project van Zo Guffixt',
+
+    openGraph: {
+      title: project.title,
+      description: project.description || 'Project van Zo Guffixt',
+      url: `https://zoguffixt.be/projecten/${slug}`,
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+
+    twitter: {
+      card: 'summary_large_image',
+      title: project.title,
+      description: project.description || 'Project van Zo Guffixt',
+      images: [imageUrl],
+    },
   }
 }
 
