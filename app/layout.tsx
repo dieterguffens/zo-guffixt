@@ -124,9 +124,6 @@ export default function RootLayout({
               <Link href="/#diensten" style={navLinkStyle}>
                 Diensten
               </Link>
-              <Link href="/#projecten" style={navLinkStyle}>
-                Projecten
-              </Link>
               <Link href="/#contact" style={navLinkStyle}>
                 Contact
               </Link>
