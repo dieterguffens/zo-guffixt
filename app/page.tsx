@@ -267,6 +267,147 @@ export default async function Home() {
         </div>
       </section>
 
+{/* OVER DIETER */}
+<section
+  style={{
+    maxWidth: 1200,
+    margin: '0 auto',
+    padding: '32px 24px 64px 24px',
+  }}
+>
+  <div
+    style={{
+      background: '#171718',
+      border: '1px solid #262628',
+      borderRadius: 28,
+      padding: 32,
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+      gap: 36,
+      alignItems: 'center',
+    }}
+  >
+    <div
+  style={{
+    display: 'flex',
+    justifyContent: 'center',
+  }}
+>
+  <div
+    style={{
+      position: 'relative',
+      width: '100%',
+      maxWidth: 320,
+    }}
+  >
+    <img
+      src="/dieter-guffens.jpg"
+      alt="Dieter Guffens - Zo Guffixt"
+      style={{
+        width: '100%',
+        borderRadius: 24,
+        objectFit: 'cover',
+        aspectRatio: '3 / 4',
+        border: '1px solid #262628',
+        boxShadow: '0 20px 50px rgba(0,0,0,0.35)',
+        display: 'block',
+      }}
+    />
+
+    <div
+      style={{
+        position: 'absolute',
+        bottom: 16,
+        left: 16,
+        background: '#8df0a1',
+        color: '#111',
+        padding: '8px 14px',
+        borderRadius: 999,
+        fontWeight: 800,
+        fontSize: 13,
+        letterSpacing: 0.5,
+        boxShadow: '0 6px 18px rgba(0,0,0,0.35)',
+      }}
+    >
+      
+    </div>
+  </div>
+</div>
+
+    <div>
+      <h2
+        style={{
+          fontSize: 36,
+          margin: '0 0 18px 0',
+          color: '#8df0a1',
+          fontWeight: 800,
+        }}
+      >
+        De man achter Zo Guffixt
+      </h2>
+
+      <p
+        style={{
+          color: '#cfcfcf',
+          lineHeight: 1.8,
+          fontSize: 16,
+          marginBottom: 16,
+          textAlign: 'justify',
+        }}
+      >
+        Mijn naam is Dieter Guffens (1988) en ik ben de zaakvoerder van Zo
+        Guffixt. Met ondertussen meer dan 20 jaar ervaring in klinkerwerken en
+        buitenaanleg realiseer ik projecten met oog voor detail, stabiliteit en
+        duurzaamheid.
+      </p>
+
+      <p
+        style={{
+          color: '#cfcfcf',
+          lineHeight: 1.8,
+          fontSize: 16,
+          marginBottom: 16,
+          textAlign: 'justify',
+        }}
+      >
+        Zo Guffixt wordt in bijberoep uitgebaat, maar kan rekenen op een sterk
+        team van ervaren vakmannen waar altijd op gebouwd kan worden. Wij
+        leveren uitsluitend kwaliteitswerk en besparen nooit op belangrijke
+        elementen zoals fundering, stabiliteit, afwatering of afwerking.
+      </p>
+
+      <p
+        style={{
+          color: '#cfcfcf',
+          lineHeight: 1.8,
+          fontSize: 16,
+          marginBottom: 24,
+          textAlign: 'justify',
+        }}
+      >
+        Bij elk project denken we actief met je mee. Samen zoeken we naar de
+        beste oplossing op vlak van afwatering, functionaliteit, esthetiek en
+        uiteraard ook het budget. De prijs die we afspreken is de prijs voor
+        het afgesproken werk. Enkel bijkomende werken of extra meters worden
+        afzonderlijk gefactureerd.
+      </p>
+
+      <div
+        style={{
+          display: 'grid',
+          gap: 8,
+          color: '#8df0a1',
+          fontWeight: 700,
+        }}
+      >
+        <div>✔ Meer dan 20 jaar ervaring</div>
+        <div>✔ Lokale vakman uit Kinrooi</div>
+        <div>✔ Afwerking zonder compromissen</div>
+      </div>
+    </div>
+  </div>
+</section>
+
       <section
         id="projecten"
         style={{

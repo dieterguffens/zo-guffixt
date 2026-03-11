@@ -102,7 +102,7 @@ export default function RootLayout({
                 src="/logo.png"
                 alt="Zo Guffixt"
                 style={{
-                  height: 48,
+                  height: 90,
                   width: 'auto',
                   objectFit: 'contain',
                   display: 'block',
