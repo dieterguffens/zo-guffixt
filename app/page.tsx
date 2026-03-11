@@ -9,28 +9,14 @@ function urlFor(source: any) {
   return builder.image(source)
 }
 
-async function getProjects() {
-  return await client.fetch(`
-    *[_type == "project"] | order(_createdAt desc){
-      _id,
-      title,
-      slug,
-      category,
-      description,
-      beforeImages,
-      afterImages,
-      gallery
-    }
-  `)
-}
-
 async function getServices() {
   return await client.fetch(`
     *[_type == "service"] | order(order asc){
       _id,
       title,
       slug,
-      shortDescription
+      shortDescription,
+      heroImage
     }
   `)
 }
@@ -52,7 +38,6 @@ async function getSettings() {
 }
 
 export default async function Home() {
-  const projects = await getProjects()
   const services = await getServices()
   const settings = await getSettings()
 
@@ -62,15 +47,7 @@ export default async function Home() {
 
   const heroImageUrl = settings?.heroImage
     ? urlFor(settings.heroImage).width(1600).url()
-    : projects?.[0]?.afterImages?.[0]
-      ? urlFor(projects[0].afterImages[0]).width(1600).url()
-      : projects?.[0]?.gallery?.[0]
-        ? urlFor(projects[0].gallery[0]).width(1600).url()
-        : null
-
-  const heroImageAlt = settings?.heroImage
-    ? 'Zo Guffixt hero afbeelding'
-    : projects?.[0]?.title || 'Zo Guffixt project'
+    : null
 
   return (
     <main
@@ -80,6 +57,7 @@ export default async function Home() {
         minHeight: '100vh',
       }}
     >
+      {/* HERO */}
       <section
         style={{
           maxWidth: 1200,
@@ -134,7 +112,7 @@ export default async function Home() {
               }}
             >
               <a
-                href="#projecten"
+                href="#diensten"
                 style={{
                   background: 'white',
                   color: '#111',
@@ -144,7 +122,7 @@ export default async function Home() {
                   textDecoration: 'none',
                 }}
               >
-                Bekijk projecten
+                Bekijk diensten
               </a>
 
               <a
@@ -167,7 +145,7 @@ export default async function Home() {
             {heroImageUrl ? (
               <img
                 src={heroImageUrl}
-                alt={heroImageAlt}
+                alt="Zo Guffixt hero afbeelding"
                 style={{
                   width: '100%',
                   borderRadius: 28,
@@ -198,6 +176,7 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* DIENSTEN MET FOTO */}
       <section
         id="diensten"
         style={{
@@ -221,262 +200,35 @@ export default async function Home() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: 18,
+            gap: 28,
           }}
         >
           {services.map((service: any) => (
-            <Link
+            <article
               key={service._id}
-              href={`/diensten/${service.slug?.current}`}
-              style={{ textDecoration: 'none', color: 'inherit' }}
+              style={{
+                background: '#171718',
+                border: '1px solid #262628',
+                borderRadius: 28,
+                overflow: 'hidden',
+              }}
             >
-              <article
+              <div
                 style={{
-                  background: '#171718',
-                  border: '1px solid #262628',
-                  borderRadius: 22,
-                  padding: 24,
-                  height: '100%',
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                  alignItems: 'stretch',
                 }}
               >
-                <h3
-                  style={{
-                    fontSize: 24,
-                    fontWeight: 800,
-                    margin: '0 0 10px 0',
-                    letterSpacing: -0.3,
-                  }}
-                >
-                  {service.title}
-                </h3>
-
-                <p
-                  style={{
-                    color: '#c8c8c8',
-                    lineHeight: 1.8,
-                    fontSize: 15,
-                    margin: 0,
-                    textAlign: 'justify',
-                  }}
-                >
-                  {service.shortDescription}
-                </p>
-              </article>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-{/* OVER DIETER */}
-<section
-  style={{
-    maxWidth: 1200,
-    margin: '0 auto',
-    padding: '32px 24px 64px 24px',
-  }}
->
-  <div
-    style={{
-      background: '#171718',
-      border: '1px solid #262628',
-      borderRadius: 28,
-      padding: 32,
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-      gap: 36,
-      alignItems: 'center',
-    }}
-  >
-    <div
-  style={{
-    display: 'flex',
-    justifyContent: 'center',
-  }}
->
-  <div
-    style={{
-      position: 'relative',
-      width: '100%',
-      maxWidth: 320,
-    }}
-  >
-    <img
-      src="/dieter-guffens.jpg"
-      alt="Dieter Guffens - Zo Guffixt"
-      style={{
-        width: '100%',
-        borderRadius: 24,
-        objectFit: 'cover',
-        aspectRatio: '3 / 4',
-        border: '1px solid #262628',
-        boxShadow: '0 20px 50px rgba(0,0,0,0.35)',
-        display: 'block',
-      }}
-    />
-
-    <div
-      style={{
-        position: 'absolute',
-        bottom: 16,
-        left: 16,
-        background: '#8df0a1',
-        color: '#111',
-        padding: '8px 14px',
-        borderRadius: 999,
-        fontWeight: 800,
-        fontSize: 13,
-        letterSpacing: 0.5,
-        boxShadow: '0 6px 18px rgba(0,0,0,0.35)',
-      }}
-    >
-      
-    </div>
-  </div>
-</div>
-
-    <div>
-      <h2
-        style={{
-          fontSize: 36,
-          margin: '0 0 18px 0',
-          color: '#8df0a1',
-          fontWeight: 800,
-        }}
-      >
-        De man achter Zo Guffixt
-      </h2>
-
-      <p
-        style={{
-          color: '#cfcfcf',
-          lineHeight: 1.8,
-          fontSize: 16,
-          marginBottom: 16,
-          textAlign: 'justify',
-        }}
-      >
-        Mijn naam is Dieter Guffens (1988) en ik ben de zaakvoerder van Zo
-        Guffixt. Met ondertussen meer dan 20 jaar ervaring in klinkerwerken en
-        buitenaanleg realiseer ik projecten met oog voor detail, stabiliteit en
-        duurzaamheid.
-      </p>
-
-      <p
-        style={{
-          color: '#cfcfcf',
-          lineHeight: 1.8,
-          fontSize: 16,
-          marginBottom: 16,
-          textAlign: 'justify',
-        }}
-      >
-        Zo Guffixt wordt in bijberoep uitgebaat, maar kan rekenen op een sterk
-        team van ervaren vakmannen waar altijd op gebouwd kan worden. Wij
-        leveren uitsluitend kwaliteitswerk en besparen nooit op belangrijke
-        elementen zoals fundering, stabiliteit, afwatering of afwerking.
-      </p>
-
-      <p
-        style={{
-          color: '#cfcfcf',
-          lineHeight: 1.8,
-          fontSize: 16,
-          marginBottom: 24,
-          textAlign: 'justify',
-        }}
-      >
-        Bij elk project denken we actief met je mee. Samen zoeken we naar de
-        beste oplossing op vlak van afwatering, functionaliteit, esthetiek en
-        uiteraard ook het budget. De prijs die we afspreken is de prijs voor
-        het afgesproken werk. Enkel bijkomende werken of extra meters worden
-        afzonderlijk gefactureerd.
-      </p>
-
-      <div
-        style={{
-          display: 'grid',
-          gap: 8,
-          color: '#8df0a1',
-          fontWeight: 700,
-        }}
-      >
-        <div>✔ Meer dan 20 jaar ervaring</div>
-        <div>✔ Lokale vakman uit Kinrooi</div>
-        <div>✔ Afwerking zonder compromissen</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-      <section
-        id="projecten"
-        style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          padding: '8px 24px 64px 24px',
-        }}
-      >
-        <h2
-          style={{
-            fontSize: 38,
-            margin: '0 0 26px 0',
-            letterSpacing: -0.6,
-            color: '#8df0a1',
-            fontWeight: 800,
-          }}
-        >
-          Projecten
-        </h2>
-
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 22,
-          }}
-        >
-          {projects.map((project: any) => (
-            <Link
-              key={project._id}
-              href={`/projecten/${project.slug?.current}`}
-              style={{ textDecoration: 'none', color: 'inherit' }}
-            >
-              <article
-                style={{
-                  background: '#171718',
-                  border: '1px solid #262628',
-                  borderRadius: 22,
-                  overflow: 'hidden',
-                  height: '100%',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: 2,
-                    background: '#101010',
-                  }}
-                >
-                  {project.beforeImages?.[0] ? (
+                <div>
+                  {service.heroImage ? (
                     <img
-                      src={urlFor(project.beforeImages[0]).width(900).url()}
-                      alt={`Voor ${project.title}`}
+                      src={urlFor(service.heroImage).width(1400).url()}
+                      alt={service.title}
                       style={{
                         width: '100%',
-                        aspectRatio: '4 / 3',
-                        objectFit: 'cover',
-                        display: 'block',
-                      }}
-                    />
-                  ) : project.gallery?.[0] ? (
-                    <img
-                      src={urlFor(project.gallery[0]).width(900).url()}
-                      alt={`${project.title} galerijfoto 1`}
-                      style={{
-                        width: '100%',
-                        aspectRatio: '4 / 3',
+                        height: '100%',
+                        minHeight: 280,
                         objectFit: 'cover',
                         display: 'block',
                       }}
@@ -485,109 +237,218 @@ export default async function Home() {
                     <div
                       style={{
                         width: '100%',
-                        aspectRatio: '4 / 3',
+                        minHeight: 280,
                         background: '#222',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#888',
                       }}
-                    />
-                  )}
-
-                  {project.afterImages?.[0] ? (
-                    <img
-                      src={urlFor(project.afterImages[0]).width(900).url()}
-                      alt={`Na ${project.title}`}
-                      style={{
-                        width: '100%',
-                        aspectRatio: '4 / 3',
-                        objectFit: 'cover',
-                        display: 'block',
-                      }}
-                    />
-                  ) : project.gallery?.[1] ? (
-                    <img
-                      src={urlFor(project.gallery[1]).width(900).url()}
-                      alt={`${project.title} galerijfoto 2`}
-                      style={{
-                        width: '100%',
-                        aspectRatio: '4 / 3',
-                        objectFit: 'cover',
-                        display: 'block',
-                      }}
-                    />
-                  ) : project.gallery?.[0] ? (
-                    <img
-                      src={urlFor(project.gallery[0]).width(900).url()}
-                      alt={`${project.title} galerijfoto`}
-                      style={{
-                        width: '100%',
-                        aspectRatio: '4 / 3',
-                        objectFit: 'cover',
-                        display: 'block',
-                      }}
-                    />
-                  ) : (
-                    <div
-                      style={{
-                        width: '100%',
-                        aspectRatio: '4 / 3',
-                        background: '#222',
-                      }}
-                    />
+                    >
+                      Geen dienstfoto
+                    </div>
                   )}
                 </div>
 
-                <div style={{ padding: 22 }}>
-                  <div
-                    style={{
-                      color: '#9f9f9f',
-                      fontSize: 12,
-                      textTransform: 'uppercase',
-                      letterSpacing: 1,
-                      marginBottom: 10,
-                    }}
-                  >
-                    {project.category}
-                  </div>
-
+                <div
+                  style={{
+                    padding: 32,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                  }}
+                >
                   <h3
                     style={{
-                      fontSize: 24,
+                      fontSize: 34,
                       fontWeight: 800,
-                      margin: '0 0 10px 0',
-                      letterSpacing: -0.3,
+                      margin: '0 0 14px 0',
+                      color: '#8df0a1',
+                      letterSpacing: -0.5,
                     }}
                   >
-                    {project.title}
+                    {service.title}
                   </h3>
 
                   <p
                     style={{
                       color: '#c8c8c8',
-                      lineHeight: 1.8,
-                      fontSize: 15,
-                      margin: 0,
+                      lineHeight: 1.9,
+                      fontSize: 16,
+                      margin: '0 0 22px 0',
                       textAlign: 'justify',
+                      maxWidth: 700,
                     }}
                   >
-                    {project.description}
+                    {service.shortDescription}
                   </p>
 
-                  <div
-                    style={{
-                      marginTop: 16,
-                      color: '#8df0a1',
-                      fontWeight: 700,
-                      fontSize: 14,
-                    }}
-                  >
-                    Bekijk project →
+                  <div>
+                    <Link
+                      href={`/diensten/${service.slug?.current}`}
+                      style={{
+                        display: 'inline-block',
+                        background: '#8df0a1',
+                        color: '#111',
+                        textDecoration: 'none',
+                        padding: '14px 20px',
+                        borderRadius: 14,
+                        fontWeight: 800,
+                      }}
+                    >
+                      Bekijk projecten
+                    </Link>
                   </div>
                 </div>
-              </article>
-            </Link>
+              </div>
+            </article>
           ))}
         </div>
       </section>
 
+      {/* OVER DIETER */}
+      <section
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: '32px 24px 64px 24px',
+        }}
+      >
+        <div
+          style={{
+            background: '#171718',
+            border: '1px solid #262628',
+            borderRadius: 28,
+            padding: 32,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 36,
+            alignItems: 'center',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <div
+              style={{
+                position: 'relative',
+                width: '100%',
+                maxWidth: 320,
+              }}
+            >
+              <img
+                src="/dieter-guffens.jpg"
+                alt="Dieter Guffens - Zo Guffixt"
+                style={{
+                  width: '100%',
+                  borderRadius: 24,
+                  objectFit: 'cover',
+                  aspectRatio: '3 / 4',
+                  border: '1px solid #262628',
+                  boxShadow: '0 20px 50px rgba(0,0,0,0.35)',
+                  display: 'block',
+                }}
+              />
+
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 16,
+                  left: 16,
+                  background: '#8df0a1',
+                  color: '#111',
+                  padding: '8px 14px',
+                  borderRadius: 999,
+                  fontWeight: 800,
+                  fontSize: 13,
+                  letterSpacing: 0.5,
+                  boxShadow: '0 6px 18px rgba(0,0,0,0.35)',
+                }}
+              >
+                20+ jaar ervaring
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h2
+              style={{
+                fontSize: 36,
+                margin: '0 0 18px 0',
+                color: '#8df0a1',
+                fontWeight: 800,
+              }}
+            >
+              De man achter Zo Guffixt
+            </h2>
+
+            <p
+              style={{
+                color: '#cfcfcf',
+                lineHeight: 1.8,
+                fontSize: 16,
+                marginBottom: 16,
+                textAlign: 'justify',
+              }}
+            >
+              Mijn naam is Dieter Guffens (1988) en ik ben de zaakvoerder van Zo
+              Guffixt. Met ondertussen meer dan 20 jaar ervaring in
+              klinkerwerken en buitenaanleg realiseer ik projecten met oog voor
+              detail, stabiliteit en duurzaamheid.
+            </p>
+
+            <p
+              style={{
+                color: '#cfcfcf',
+                lineHeight: 1.8,
+                fontSize: 16,
+                marginBottom: 16,
+                textAlign: 'justify',
+              }}
+            >
+              Zo Guffixt wordt in bijberoep uitgebaat, maar kan rekenen op een
+              sterk team van ervaren vakmannen waar altijd op gebouwd kan
+              worden. Wij leveren uitsluitend kwaliteitswerk en besparen nooit
+              op belangrijke elementen zoals fundering, stabiliteit, afwatering
+              of afwerking.
+            </p>
+
+            <p
+              style={{
+                color: '#cfcfcf',
+                lineHeight: 1.8,
+                fontSize: 16,
+                marginBottom: 24,
+                textAlign: 'justify',
+              }}
+            >
+              Bij elk project denken we actief met je mee. Samen zoeken we naar
+              de beste oplossing op vlak van afwatering, functionaliteit,
+              esthetiek en uiteraard ook het budget. De prijs die we afspreken
+              is de prijs voor het afgesproken werk. Enkel bijkomende werken of
+              extra meters worden afzonderlijk gefactureerd.
+            </p>
+
+            <div
+              style={{
+                display: 'grid',
+                gap: 8,
+                color: '#8df0a1',
+                fontWeight: 700,
+              }}
+            >
+              <div>✔ Meer dan 20 jaar ervaring</div>
+              <div>✔ Lokale vakman uit Kinrooi</div>
+              <div>✔ Afwerking zonder compromissen</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACT */}
       <section
         id="contact"
         style={{
@@ -625,7 +486,14 @@ export default async function Home() {
             }}
           >
             <div>
-              <div style={{ color: 'white', fontSize: 15, fontWeight: 700, marginBottom: 8 }}>
+              <div
+                style={{
+                  color: 'white',
+                  fontSize: 15,
+                  fontWeight: 700,
+                  marginBottom: 8,
+                }}
+              >
                 Bedrijf
               </div>
               <div>{settings?.businessName}</div>
@@ -633,7 +501,14 @@ export default async function Home() {
             </div>
 
             <div>
-              <div style={{ color: 'white', fontSize: 15, fontWeight: 700, marginBottom: 8 }}>
+              <div
+                style={{
+                  color: 'white',
+                  fontSize: 15,
+                  fontWeight: 700,
+                  marginBottom: 8,
+                }}
+              >
                 Adres
               </div>
               <div>{settings?.address}</div>
@@ -641,7 +516,14 @@ export default async function Home() {
             </div>
 
             <div>
-              <div style={{ color: 'white', fontSize: 15, fontWeight: 700, marginBottom: 8 }}>
+              <div
+                style={{
+                  color: 'white',
+                  fontSize: 15,
+                  fontWeight: 700,
+                  marginBottom: 8,
+                }}
+              >
                 Contactgegevens
               </div>
               <div>{settings?.phone}</div>
@@ -649,7 +531,14 @@ export default async function Home() {
             </div>
 
             <div>
-              <div style={{ color: 'white', fontSize: 15, fontWeight: 700, marginBottom: 8 }}>
+              <div
+                style={{
+                  color: 'white',
+                  fontSize: 15,
+                  fontWeight: 700,
+                  marginBottom: 8,
+                }}
+              >
                 Onderneming
               </div>
               <div>{settings?.vatNumber}</div>
