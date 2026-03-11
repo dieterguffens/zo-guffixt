@@ -46,5 +46,10 @@ export const siteSettings = defineType({
       type: 'string',
       description: 'Gebruik internationaal formaat, bv. 32477134188',
     }),
+    defineField({
+  name: 'heroImage',
+  title: 'Homepage hero foto',
+  type: 'image',
+}),
   ],
 })

@@ -1,6 +1,8 @@
 import { client } from '../../../lib/sanity'
 import imageUrlBuilder from '@sanity/image-url'
 import { notFound } from 'next/navigation'
+import BeforeAfterSlider from '../../../components/BeforeAfterSlider'
+import LightboxGallery from '../../../components/LightboxGallery'
 
 const builder = imageUrlBuilder(client)
 
@@ -63,6 +65,20 @@ export default async function ProjectPage({
     notFound()
   }
 
+  // Maak meerdere voor/na combinaties op basis van de arrays
+  const beforeAfterPairs =
+    project.beforeImages?.map((beforeImage: any, index: number) => {
+      const afterImage = project.afterImages?.[index]
+
+      if (!beforeImage || !afterImage) return null
+
+      return {
+        before: urlFor(beforeImage).width(1600).url(),
+        after: urlFor(afterImage).width(1600).url(),
+        index,
+      }
+    }).filter(Boolean) || []
+
   return (
     <main
       style={{
@@ -120,7 +136,14 @@ export default async function ProjectPage({
           {project.category}
         </div>
 
-        <h1 style={{ fontSize: 48, margin: '0 0 18px 0', maxWidth: 900 }}>
+        <h1
+          style={{
+            fontSize: 48,
+            margin: '0 0 18px 0',
+            maxWidth: 900,
+            lineHeight: 1.1,
+          }}
+        >
           {project.title}
         </h1>
 
@@ -131,125 +154,74 @@ export default async function ProjectPage({
               lineHeight: 1.7,
               color: '#d4d4d4',
               maxWidth: 850,
-              marginBottom: 32,
+              marginBottom: 40,
             }}
           >
             {project.description}
           </p>
         )}
 
-        {/* VOOR / NA */}
-        <section style={{ marginTop: 20, marginBottom: 48 }}>
+        {/* VOOR / NA SLIDERS */}
+        <section style={{ marginTop: 20, marginBottom: 56 }}>
           <h2 style={{ fontSize: 30, marginBottom: 20 }}>Voor & na</h2>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: 20,
-            }}
-          >
+          {beforeAfterPairs.length > 0 ? (
+            <div
+              style={{
+                display: 'grid',
+                gap: 28,
+              }}
+            >
+              {beforeAfterPairs.map((pair: any, index: number) => (
+                <div
+                  key={index}
+                  style={{
+                    background: '#171718',
+                    border: '1px solid #2a2a2c',
+                    borderRadius: 24,
+                    padding: 16,
+                  }}
+                >
+                  <BeforeAfterSlider
+                    before={pair.before}
+                    after={pair.after}
+                    alt={`${project.title} voor en na ${index + 1}`}
+                  />
+
+                  <div
+                    style={{
+                      marginTop: 12,
+                      fontSize: 13,
+                      color: '#a3a3a3',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: 1,
+                    }}
+                  >
+                    Vergelijking {index + 1}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
             <div
               style={{
                 background: '#171718',
                 border: '1px solid #2a2a2c',
                 borderRadius: 20,
-                overflow: 'hidden',
+                padding: 24,
+                color: '#888',
               }}
             >
-              {project.beforeImages?.[0] ? (
-                <img
-                  src={urlFor(project.beforeImages[0]).width(1400).url()}
-                  alt={`Voorfoto van ${project.title}`}
-                  style={{
-                    width: '100%',
-                    aspectRatio: '4 / 3',
-                    objectFit: 'cover',
-                    display: 'block',
-                  }}
-                />
-              ) : (
-                <div
-                  style={{
-                    width: '100%',
-                    aspectRatio: '4 / 3',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#888',
-                  }}
-                >
-                  Geen voorfoto
-                </div>
-              )}
-
-              <div
-                style={{
-                  padding: '12px 16px',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  fontSize: 13,
-                  color: '#d4d4d4',
-                }}
-              >
-                Voor
-              </div>
+              Nog geen volledige voor/na combinaties beschikbaar.
             </div>
-
-            <div
-              style={{
-                background: '#171718',
-                border: '1px solid #2a2a2c',
-                borderRadius: 20,
-                overflow: 'hidden',
-              }}
-            >
-              {project.afterImages?.[0] ? (
-                <img
-                  src={urlFor(project.afterImages[0]).width(1400).url()}
-                  alt={`Nafoto van ${project.title}`}
-                  style={{
-                    width: '100%',
-                    aspectRatio: '4 / 3',
-                    objectFit: 'cover',
-                    display: 'block',
-                  }}
-                />
-              ) : (
-                <div
-                  style={{
-                    width: '100%',
-                    aspectRatio: '4 / 3',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#888',
-                  }}
-                >
-                  Geen nafoto
-                </div>
-              )}
-
-              <div
-                style={{
-                  padding: '12px 16px',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  fontSize: 13,
-                  color: '#111',
-                  background: '#8df0a1',
-                }}
-              >
-                Na
-              </div>
-            </div>
-          </div>
+          )}
         </section>
 
-        {/* GALERIJ */}
-        {project.gallery?.length > 0 && (
-          <section>
-            <h2 style={{ fontSize: 30, marginBottom: 20 }}>Galerij</h2>
+        {/* LOSSE VOOR EN NA FOTO'S ALS BACK-UP */}
+        {(project.beforeImages?.length > 0 || project.afterImages?.length > 0) && (
+          <section style={{ marginBottom: 56 }}>
+            <h2 style={{ fontSize: 30, marginBottom: 20 }}>Alle voor- en nafoto&apos;s</h2>
 
             <div
               style={{
@@ -258,24 +230,92 @@ export default async function ProjectPage({
                 gap: 18,
               }}
             >
-              {project.gallery.map((image: any, index: number) => (
-                <img
-                  key={index}
-                  src={urlFor(image).width(1200).url()}
-                  alt={`${project.title} foto ${index + 1}`}
+              {project.beforeImages?.map((image: any, index: number) => (
+                <div
+                  key={`before-${index}`}
                   style={{
-                    width: '100%',
-                    aspectRatio: '4 / 3',
-                    objectFit: 'cover',
-                    borderRadius: 18,
-                    display: 'block',
+                    background: '#171718',
                     border: '1px solid #2a2a2c',
+                    borderRadius: 18,
+                    overflow: 'hidden',
                   }}
-                />
+                >
+                  <img
+                    src={urlFor(image).width(1200).url()}
+                    alt={`${project.title} voorfoto ${index + 1}`}
+                    style={{
+                      width: '100%',
+                      aspectRatio: '4 / 3',
+                      objectFit: 'cover',
+                      display: 'block',
+                    }}
+                  />
+                  <div
+                    style={{
+                      padding: '10px 14px',
+                      fontSize: 12,
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      color: '#d4d4d4',
+                    }}
+                  >
+                    Voor {index + 1}
+                  </div>
+                </div>
+              ))}
+
+              {project.afterImages?.map((image: any, index: number) => (
+                <div
+                  key={`after-${index}`}
+                  style={{
+                    background: '#171718',
+                    border: '1px solid #2a2a2c',
+                    borderRadius: 18,
+                    overflow: 'hidden',
+                  }}
+                >
+                  <img
+                    src={urlFor(image).width(1200).url()}
+                    alt={`${project.title} nafoto ${index + 1}`}
+                    style={{
+                      width: '100%',
+                      aspectRatio: '4 / 3',
+                      objectFit: 'cover',
+                      display: 'block',
+                    }}
+                  />
+                  <div
+                    style={{
+                      padding: '10px 14px',
+                      fontSize: 12,
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      color: '#111',
+                      background: '#8df0a1',
+                    }}
+                  >
+                    Na {index + 1}
+                  </div>
+                </div>
               ))}
             </div>
           </section>
         )}
+
+{/* GALERIJ */}
+{project.gallery?.length > 0 && (
+  <section>
+    <h2 style={{ fontSize: 30, marginBottom: 20 }}>Galerij</h2>
+
+    <LightboxGallery
+      title={project.title}
+      images={project.gallery.map((image: any) =>
+        urlFor(image).width(1600).url()
+      )}
+    />
+  </section>
+)}
+
       </section>
     </main>
   )

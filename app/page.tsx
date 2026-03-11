@@ -43,7 +43,8 @@ async function getSettings() {
       vatNumber,
       phone,
       email,
-      whatsapp
+      whatsapp,
+      heroImage
     }
   `)
 }
@@ -57,88 +58,37 @@ export default async function Home() {
     ? `https://wa.me/${settings.whatsapp}?text=Hallo%20Dieter,%20ik%20heb%20interesse%20in%20een%20offerte%20van%20Zo%20Guffixt.`
     : '#'
 
+  const heroImageUrl = settings?.heroImage
+    ? urlFor(settings.heroImage).width(1600).url()
+    : projects?.[0]?.afterImages?.[0]
+      ? urlFor(projects[0].afterImages[0]).width(1600).url()
+      : null
+
+  const heroImageAlt = settings?.heroImage
+    ? 'Zo Guffixt hero afbeelding'
+    : projects?.[0]?.title || 'Zo Guffixt project'
+
   return (
     <main
       style={{
-        fontFamily: 'Arial, sans-serif',
         background: '#0f0f10',
         color: 'white',
         minHeight: '100vh',
       }}
     >
-      {/* HEADER */}
-
-      <header
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 50,
-          background: 'rgba(15,15,16,0.92)',
-          backdropFilter: 'blur(10px)',
-          borderBottom: '1px solid #262626',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 1200,
-            margin: '0 auto',
-            padding: '18px 24px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-          }}
-        >
-          <div>
-            <div style={{ fontSize: 24, fontWeight: 800 }}>
-              {settings?.businessName || 'Zo Guffixt'}
-            </div>
-            <div style={{ fontSize: 13, color: '#a3a3a3' }}>
-              Klinkerwerken & tuinaanleg
-            </div>
-          </div>
-
-          <nav style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            {services.map((service: any) => (
-              <Link
-                key={service._id}
-                href={`/diensten/${service.slug?.current}`}
-                style={{
-                  color: 'white',
-                  textDecoration: 'none',
-                  fontSize: 14,
-                  padding: '10px 14px',
-                }}
-              >
-                {service.title}
-              </Link>
-            ))}
-
-            <a href="#projecten" style={{ padding: '10px 14px' }}>
-              Projecten
-            </a>
-
-            <a href="#contact" style={{ padding: '10px 14px' }}>
-              Contact
-            </a>
-          </nav>
-        </div>
-      </header>
-
       {/* HERO */}
-
       <section
         style={{
           maxWidth: 1200,
           margin: '0 auto',
-          padding: '64px 24px 48px 24px',
+          padding: '72px 24px 56px 24px',
         }}
       >
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
-            gap: 32,
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 40,
             alignItems: 'center',
           }}
         >
@@ -148,33 +98,56 @@ export default async function Home() {
                 display: 'inline-block',
                 padding: '8px 14px',
                 borderRadius: 999,
-                background: '#1d1d1f',
-                border: '1px solid #2d2d2f',
+                background: '#1a1a1c',
+                border: '1px solid #2a2a2c',
                 fontSize: 13,
                 color: '#bdbdbd',
-                marginBottom: 20,
+                marginBottom: 22,
               }}
             >
               Zo Guffixt · Kinrooi (Geistingen)
             </div>
 
-            <h1 style={{ fontSize: 52, marginBottom: 18 }}>
+            <h1
+              style={{
+                fontSize: 64,
+                lineHeight: 1.04,
+                letterSpacing: -1.5,
+                margin: '0 0 20px 0',
+                maxWidth: 700,
+              }}
+            >
               Kwalitatieve buitenaanleg zonder compromissen.
             </h1>
 
-            <p style={{ color: '#d4d4d4', maxWidth: 700 }}>
+            <p
+              style={{
+                color: '#cfcfcf',
+                maxWidth: 700,
+                fontSize: 19,
+                lineHeight: 1.8,
+                margin: 0,
+              }}
+            >
               Zo Guffixt realiseert klinkerwerken, megategels, kiezels,
               keerwanden, riolering en zwembadomranding met oog voor afwerking,
               stabiliteit en duurzame materialen.
             </p>
 
-            <div style={{ display: 'flex', gap: 14, marginTop: 28 }}>
+            <div
+              style={{
+                display: 'flex',
+                gap: 14,
+                flexWrap: 'wrap',
+                marginTop: 30,
+              }}
+            >
               <a
                 href="#projecten"
                 style={{
                   background: 'white',
                   color: '#111',
-                  padding: '14px 20px',
+                  padding: '14px 22px',
                   borderRadius: 14,
                   fontWeight: 700,
                   textDecoration: 'none',
@@ -187,7 +160,8 @@ export default async function Home() {
                 href={whatsappLink}
                 style={{
                   background: '#1f7a45',
-                  padding: '14px 20px',
+                  color: 'white',
+                  padding: '14px 22px',
                   borderRadius: 14,
                   textDecoration: 'none',
                   fontWeight: 700,
@@ -199,34 +173,64 @@ export default async function Home() {
           </div>
 
           <div>
-            {projects?.[0]?.afterImages?.[0] && (
+            {heroImageUrl ? (
               <img
-                src={urlFor(projects[0].afterImages[0]).width(1400).url()}
+                src={heroImageUrl}
+                alt={heroImageAlt}
                 style={{
                   width: '100%',
-                  borderRadius: 24,
+                  borderRadius: 28,
                   aspectRatio: '4 / 3',
                   objectFit: 'cover',
+                  display: 'block',
+                  border: '1px solid #242426',
                 }}
               />
+            ) : (
+              <div
+                style={{
+                  width: '100%',
+                  aspectRatio: '4 / 3',
+                  borderRadius: 28,
+                  background: '#171718',
+                  border: '1px solid #242426',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#8a8a8a',
+                }}
+              >
+                Voeg een homepage hero foto toe in Studio
+              </div>
             )}
           </div>
         </div>
       </section>
 
       {/* DIENSTEN */}
-
       <section
         id="diensten"
-        style={{ maxWidth: 1200, margin: '0 auto', padding: '24px' }}
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: '8px 24px 64px 24px',
+        }}
       >
-        <h2 style={{ fontSize: 34, marginBottom: 24 }}>Diensten</h2>
+        <h2
+          style={{
+            fontSize: 38,
+            margin: '0 0 26px 0',
+            letterSpacing: -0.6,
+          }}
+        >
+          Diensten
+        </h2>
 
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))',
-            gap: 20,
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: 18,
           }}
         >
           {services.map((service: any) => (
@@ -237,13 +241,32 @@ export default async function Home() {
             >
               <article
                 style={{
-                  background: '#1a1a1c',
-                  borderRadius: 20,
-                  padding: 22,
+                  background: '#171718',
+                  border: '1px solid #262628',
+                  borderRadius: 22,
+                  padding: 24,
+                  height: '100%',
                 }}
               >
-                <h3>{service.title}</h3>
-                <p style={{ color: '#d4d4d4' }}>
+                <h3
+                  style={{
+                    fontSize: 24,
+                    fontWeight: 800,
+                    margin: '0 0 10px 0',
+                    letterSpacing: -0.3,
+                  }}
+                >
+                  {service.title}
+                </h3>
+
+                <p
+                  style={{
+                    color: '#c8c8c8',
+                    lineHeight: 1.8,
+                    fontSize: 15,
+                    margin: 0,
+                  }}
+                >
                   {service.shortDescription}
                 </p>
               </article>
@@ -253,18 +276,29 @@ export default async function Home() {
       </section>
 
       {/* PROJECTEN */}
-
       <section
         id="projecten"
-        style={{ maxWidth: 1200, margin: '0 auto', padding: '24px' }}
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: '8px 24px 64px 24px',
+        }}
       >
-        <h2 style={{ fontSize: 34, marginBottom: 24 }}>Projecten</h2>
+        <h2
+          style={{
+            fontSize: 38,
+            margin: '0 0 26px 0',
+            letterSpacing: -0.6,
+          }}
+        >
+          Projecten
+        </h2>
 
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
-            gap: 24,
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 22,
           }}
         >
           {projects.map((project: any) => (
@@ -275,48 +309,86 @@ export default async function Home() {
             >
               <article
                 style={{
-                  background: '#1a1a1c',
-                  borderRadius: 20,
+                  background: '#171718',
+                  border: '1px solid #262628',
+                  borderRadius: 22,
                   overflow: 'hidden',
+                  height: '100%',
                 }}
               >
                 <div
                   style={{
                     display: 'grid',
                     gridTemplateColumns: '1fr 1fr',
+                    gap: 2,
+                    background: '#101010',
                   }}
                 >
-                  {project.beforeImages?.[0] && (
+                  {project.beforeImages?.[0] ? (
                     <img
                       src={urlFor(project.beforeImages[0]).width(900).url()}
+                      alt={`Voor ${project.title}`}
                       style={{
                         width: '100%',
-                        height: 220,
+                        height: 230,
                         objectFit: 'cover',
+                        display: 'block',
                       }}
                     />
+                  ) : (
+                    <div style={{ height: 230, background: '#222' }} />
                   )}
 
-                  {project.afterImages?.[0] && (
+                  {project.afterImages?.[0] ? (
                     <img
                       src={urlFor(project.afterImages[0]).width(900).url()}
+                      alt={`Na ${project.title}`}
                       style={{
                         width: '100%',
-                        height: 220,
+                        height: 230,
                         objectFit: 'cover',
+                        display: 'block',
                       }}
                     />
+                  ) : (
+                    <div style={{ height: 230, background: '#222' }} />
                   )}
                 </div>
 
-                <div style={{ padding: 20 }}>
-                  <div style={{ color: '#8df0a1', fontSize: 12 }}>
+                <div style={{ padding: 22 }}>
+                  <div
+                    style={{
+                      color: '#9f9f9f',
+                      fontSize: 12,
+                      textTransform: 'uppercase',
+                      letterSpacing: 1,
+                      marginBottom: 10,
+                    }}
+                  >
                     {project.category}
                   </div>
 
-                  <h3>{project.title}</h3>
+                  <h3
+                    style={{
+                      fontSize: 24,
+                      fontWeight: 800,
+                      margin: '0 0 10px 0',
+                      letterSpacing: -0.3,
+                    }}
+                  >
+                    {project.title}
+                  </h3>
 
-                  <p style={{ color: '#d4d4d4' }}>{project.description}</p>
+                  <p
+                    style={{
+                      color: '#c8c8c8',
+                      lineHeight: 1.8,
+                      fontSize: 15,
+                      margin: 0,
+                    }}
+                  >
+                    {project.description}
+                  </p>
                 </div>
               </article>
             </Link>
@@ -325,20 +397,154 @@ export default async function Home() {
       </section>
 
       {/* CONTACT */}
-
       <section
         id="contact"
-        style={{ maxWidth: 1200, margin: '0 auto', padding: '24px' }}
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: '8px 24px 80px 24px',
+        }}
       >
-        <h2>Contact</h2>
+        <div
+          style={{
+            background: '#171718',
+            border: '1px solid #262628',
+            borderRadius: 28,
+            padding: 32,
+          }}
+        >
+          <h2
+            style={{
+              fontSize: 38,
+              margin: '0 0 26px 0',
+              letterSpacing: -0.6,
+            }}
+          >
+            Contact
+          </h2>
 
-        <div style={{ color: '#d4d4d4' }}>
-          <div>{settings?.businessName}</div>
-          <div>{settings?.ownerName}</div>
-          <div>{settings?.address}</div>
-          <div>{settings?.postalCity}</div>
-          <div>{settings?.phone}</div>
-          <div>{settings?.email}</div>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+              gap: 24,
+              color: '#c8c8c8',
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  color: 'white',
+                  fontSize: 15,
+                  fontWeight: 700,
+                  marginBottom: 8,
+                }}
+              >
+                Bedrijf
+              </div>
+              <div>{settings?.businessName}</div>
+              <div>{settings?.ownerName}</div>
+            </div>
+
+            <div>
+              <div
+                style={{
+                  color: 'white',
+                  fontSize: 15,
+                  fontWeight: 700,
+                  marginBottom: 8,
+                }}
+              >
+                Adres
+              </div>
+              <div>{settings?.address}</div>
+              <div>{settings?.postalCity}</div>
+            </div>
+
+            <div>
+              <div
+                style={{
+                  color: 'white',
+                  fontSize: 15,
+                  fontWeight: 700,
+                  marginBottom: 8,
+                }}
+              >
+                Contactgegevens
+              </div>
+              <div>{settings?.phone}</div>
+              <div>{settings?.email}</div>
+            </div>
+
+            <div>
+              <div
+                style={{
+                  color: 'white',
+                  fontSize: 15,
+                  fontWeight: 700,
+                  marginBottom: 8,
+                }}
+              >
+                Onderneming
+              </div>
+              <div>{settings?.vatNumber}</div>
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              gap: 14,
+              flexWrap: 'wrap',
+              marginTop: 28,
+            }}
+          >
+            {settings?.phone && (
+              <a
+                href={`tel:${settings.phone.replace(/\s+/g, '')}`}
+                style={{
+                  background: 'white',
+                  color: '#111',
+                  textDecoration: 'none',
+                  padding: '14px 20px',
+                  borderRadius: 14,
+                  fontWeight: 700,
+                }}
+              >
+                Bel direct
+              </a>
+            )}
+
+            {settings?.email && (
+              <a
+                href={`mailto:${settings.email}`}
+                style={{
+                  border: '1px solid #2d2d2f',
+                  color: 'white',
+                  textDecoration: 'none',
+                  padding: '14px 20px',
+                  borderRadius: 14,
+                  fontWeight: 700,
+                }}
+              >
+                Mail sturen
+              </a>
+            )}
+
+            <a
+              href={whatsappLink}
+              style={{
+                background: '#1f7a45',
+                color: 'white',
+                textDecoration: 'none',
+                padding: '14px 20px',
+                borderRadius: 14,
+                fontWeight: 700,
+              }}
+            >
+              WhatsApp
+            </a>
+          </div>
         </div>
       </section>
     </main>
