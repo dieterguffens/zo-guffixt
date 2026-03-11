@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic' 
 import { client } from '../../../lib/sanity'
 import imageUrlBuilder from '@sanity/image-url'
 import { notFound } from 'next/navigation'
