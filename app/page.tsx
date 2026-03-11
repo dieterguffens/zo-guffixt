@@ -17,7 +17,8 @@ async function getProjects() {
       category,
       description,
       beforeImages,
-      afterImages
+      afterImages,
+      gallery
     }
   `)
 }
@@ -62,7 +63,9 @@ export default async function Home() {
     ? urlFor(settings.heroImage).width(1600).url()
     : projects?.[0]?.afterImages?.[0]
       ? urlFor(projects[0].afterImages[0]).width(1600).url()
-      : null
+      : projects?.[0]?.gallery?.[0]
+        ? urlFor(projects[0].gallery[0]).width(1600).url()
+        : null
 
   const heroImageAlt = settings?.heroImage
     ? 'Zo Guffixt hero afbeelding'
@@ -76,7 +79,6 @@ export default async function Home() {
         minHeight: '100vh',
       }}
     >
-      {/* HERO */}
       <section
         style={{
           maxWidth: 1200,
@@ -195,7 +197,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* DIENSTEN */}
       <section
         id="diensten"
         style={{
@@ -266,7 +267,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* PROJECTEN */}
       <section
         id="projecten"
         style={{
@@ -328,6 +328,17 @@ export default async function Home() {
                         display: 'block',
                       }}
                     />
+                  ) : project.gallery?.[0] ? (
+                    <img
+                      src={urlFor(project.gallery[0]).width(900).url()}
+                      alt={`${project.title} galerijfoto 1`}
+                      style={{
+                        width: '100%',
+                        aspectRatio: '4 / 3',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
                   ) : (
                     <div
                       style={{
@@ -342,6 +353,28 @@ export default async function Home() {
                     <img
                       src={urlFor(project.afterImages[0]).width(900).url()}
                       alt={`Na ${project.title}`}
+                      style={{
+                        width: '100%',
+                        aspectRatio: '4 / 3',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
+                  ) : project.gallery?.[1] ? (
+                    <img
+                      src={urlFor(project.gallery[1]).width(900).url()}
+                      alt={`${project.title} galerijfoto 2`}
+                      style={{
+                        width: '100%',
+                        aspectRatio: '4 / 3',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
+                  ) : project.gallery?.[0] ? (
+                    <img
+                      src={urlFor(project.gallery[0]).width(900).url()}
+                      alt={`${project.title} galerijfoto`}
                       style={{
                         width: '100%',
                         aspectRatio: '4 / 3',
@@ -413,7 +446,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* CONTACT */}
       <section
         id="contact"
         style={{
@@ -451,14 +483,7 @@ export default async function Home() {
             }}
           >
             <div>
-              <div
-                style={{
-                  color: 'white',
-                  fontSize: 15,
-                  fontWeight: 700,
-                  marginBottom: 8,
-                }}
-              >
+              <div style={{ color: 'white', fontSize: 15, fontWeight: 700, marginBottom: 8 }}>
                 Bedrijf
               </div>
               <div>{settings?.businessName}</div>
@@ -466,14 +491,7 @@ export default async function Home() {
             </div>
 
             <div>
-              <div
-                style={{
-                  color: 'white',
-                  fontSize: 15,
-                  fontWeight: 700,
-                  marginBottom: 8,
-                }}
-              >
+              <div style={{ color: 'white', fontSize: 15, fontWeight: 700, marginBottom: 8 }}>
                 Adres
               </div>
               <div>{settings?.address}</div>
@@ -481,14 +499,7 @@ export default async function Home() {
             </div>
 
             <div>
-              <div
-                style={{
-                  color: 'white',
-                  fontSize: 15,
-                  fontWeight: 700,
-                  marginBottom: 8,
-                }}
-              >
+              <div style={{ color: 'white', fontSize: 15, fontWeight: 700, marginBottom: 8 }}>
                 Contactgegevens
               </div>
               <div>{settings?.phone}</div>
@@ -496,14 +507,7 @@ export default async function Home() {
             </div>
 
             <div>
-              <div
-                style={{
-                  color: 'white',
-                  fontSize: 15,
-                  fontWeight: 700,
-                  marginBottom: 8,
-                }}
-              >
+              <div style={{ color: 'white', fontSize: 15, fontWeight: 700, marginBottom: 8 }}>
                 Onderneming
               </div>
               <div>{settings?.vatNumber}</div>
