@@ -276,125 +276,148 @@ export default async function Home() {
       </section>
 
       {/* PROJECTEN */}
-      <section
-        id="projecten"
-        style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          padding: '8px 24px 64px 24px',
-        }}
+     <section
+  id="projecten"
+  style={{
+    maxWidth: 1200,
+    margin: '0 auto',
+    padding: '8px 24px 64px 24px',
+  }}
+>
+  <h2
+    style={{
+      fontSize: 38,
+      margin: '0 0 26px 0',
+      letterSpacing: -0.6,
+    }}
+  >
+    Projecten
+  </h2>
+
+  <div
+    style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+      gap: 22,
+    }}
+  >
+    {projects.map((project: any) => (
+      <Link
+        key={project._id}
+        href={`/projecten/${project.slug?.current}`}
+        style={{ textDecoration: 'none', color: 'inherit' }}
       >
-        <h2
+        <article
           style={{
-            fontSize: 38,
-            margin: '0 0 26px 0',
-            letterSpacing: -0.6,
+            background: '#171718',
+            border: '1px solid #262628',
+            borderRadius: 22,
+            overflow: 'hidden',
+            height: '100%',
           }}
         >
-          Projecten
-        </h2>
-
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 22,
-          }}
-        >
-          {projects.map((project: any) => (
-            <Link
-              key={project._id}
-              href={`/projecten/${project.slug?.current}`}
-              style={{ textDecoration: 'none', color: 'inherit' }}
-            >
-              <article
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: 2,
+              background: '#101010',
+            }}
+          >
+            {project.beforeImages?.[0] ? (
+              <img
+                src={urlFor(project.beforeImages[0]).width(900).url()}
+                alt={`Voor ${project.title}`}
                 style={{
-                  background: '#171718',
-                  border: '1px solid #262628',
-                  borderRadius: 22,
-                  overflow: 'hidden',
-                  height: '100%',
+                  width: '100%',
+                  aspectRatio: '4 / 3',
+                  objectFit: 'cover',
+                  display: 'block',
                 }}
-              >
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: 2,
-                    background: '#101010',
-                  }}
-                >
-                  {project.beforeImages?.[0] ? (
-                    <img
-                      src={urlFor(project.beforeImages[0]).width(900).url()}
-                      alt={`Voor ${project.title}`}
-                      style={{
-                        width: '100%',
-                        height: 230,
-                        objectFit: 'cover',
-                        display: 'block',
-                      }}
-                    />
-                  ) : (
-                    <div style={{ height: 230, background: '#222' }} />
-                  )}
+              />
+            ) : (
+              <div
+                style={{
+                  width: '100%',
+                  aspectRatio: '4 / 3',
+                  background: '#222',
+                }}
+              />
+            )}
 
-                  {project.afterImages?.[0] ? (
-                    <img
-                      src={urlFor(project.afterImages[0]).width(900).url()}
-                      alt={`Na ${project.title}`}
-                      style={{
-                        width: '100%',
-                        height: 230,
-                        objectFit: 'cover',
-                        display: 'block',
-                      }}
-                    />
-                  ) : (
-                    <div style={{ height: 230, background: '#222' }} />
-                  )}
-                </div>
+            {project.afterImages?.[0] ? (
+              <img
+                src={urlFor(project.afterImages[0]).width(900).url()}
+                alt={`Na ${project.title}`}
+                style={{
+                  width: '100%',
+                  aspectRatio: '4 / 3',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: '100%',
+                  aspectRatio: '4 / 3',
+                  background: '#222',
+                }}
+              />
+            )}
+          </div>
 
-                <div style={{ padding: 22 }}>
-                  <div
-                    style={{
-                      color: '#9f9f9f',
-                      fontSize: 12,
-                      textTransform: 'uppercase',
-                      letterSpacing: 1,
-                      marginBottom: 10,
-                    }}
-                  >
-                    {project.category}
-                  </div>
+          <div style={{ padding: 22 }}>
+            <div
+              style={{
+                color: '#9f9f9f',
+                fontSize: 12,
+                textTransform: 'uppercase',
+                letterSpacing: 1,
+                marginBottom: 10,
+              }}
+            >
+              {project.category}
+            </div>
 
-                  <h3
-                    style={{
-                      fontSize: 24,
-                      fontWeight: 800,
-                      margin: '0 0 10px 0',
-                      letterSpacing: -0.3,
-                    }}
-                  >
-                    {project.title}
-                  </h3>
+            <h3
+              style={{
+                fontSize: 24,
+                fontWeight: 800,
+                margin: '0 0 10px 0',
+                letterSpacing: -0.3,
+              }}
+            >
+              {project.title}
+            </h3>
 
-                  <p
-                    style={{
-                      color: '#c8c8c8',
-                      lineHeight: 1.8,
-                      fontSize: 15,
-                      margin: 0,
-                    }}
-                  >
-                    {project.description}
-                  </p>
-                </div>
-              </article>
-            </Link>
-          ))}
-        </div>
-      </section>
+            <p
+              style={{
+                color: '#c8c8c8',
+                lineHeight: 1.8,
+                fontSize: 15,
+                margin: 0,
+              }}
+            >
+              {project.description}
+            </p>
+
+            <div
+              style={{
+                marginTop: 16,
+                color: '#8df0a1',
+                fontWeight: 700,
+                fontSize: 14,
+              }}
+            >
+              Bekijk project →
+            </div>
+          </div>
+        </article>
+      </Link>
+    ))}
+  </div>
+</section>
 
       {/* CONTACT */}
       <section
