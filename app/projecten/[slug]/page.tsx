@@ -65,7 +65,6 @@ export default async function ProjectPage({
     notFound()
   }
 
-  // Maak meerdere voor/na combinaties op basis van de arrays
   const beforeAfterPairs =
     project.beforeImages?.map((beforeImage: any, index: number) => {
       const afterImage = project.afterImages?.[index]
@@ -79,10 +78,18 @@ export default async function ProjectPage({
       }
     }).filter(Boolean) || []
 
+  const galleryImages =
+    project.gallery?.map((image: any) => urlFor(image).width(1600).url()) || []
+
+  const looseBeforeImages =
+    project.beforeImages?.map((image: any) => urlFor(image).width(1600).url()) || []
+
+  const looseAfterImages =
+    project.afterImages?.map((image: any) => urlFor(image).width(1600).url()) || []
+
   return (
     <main
       style={{
-        fontFamily: 'Arial, sans-serif',
         background: '#0f0f10',
         color: 'white',
         minHeight: '100vh',
@@ -142,6 +149,7 @@ export default async function ProjectPage({
             margin: '0 0 18px 0',
             maxWidth: 900,
             lineHeight: 1.1,
+            fontWeight: 800,
           }}
         >
           {project.title}
@@ -155,15 +163,25 @@ export default async function ProjectPage({
               color: '#d4d4d4',
               maxWidth: 850,
               marginBottom: 40,
+              textAlign: 'justify',
             }}
           >
             {project.description}
           </p>
         )}
 
-        {/* VOOR / NA SLIDERS */}
+        {/* VOOR / NA */}
         <section style={{ marginTop: 20, marginBottom: 56 }}>
-          <h2 style={{ fontSize: 30, marginBottom: 20 }}>Voor & na</h2>
+          <h2
+            style={{
+              fontSize: 30,
+              marginBottom: 20,
+              color: '#8df0a1',
+              fontWeight: 800,
+            }}
+          >
+            Voor & na
+          </h2>
 
           {beforeAfterPairs.length > 0 ? (
             <div
@@ -203,6 +221,32 @@ export default async function ProjectPage({
                 </div>
               ))}
             </div>
+          ) : galleryImages.length > 0 ? (
+            <div
+              style={{
+                background: '#171718',
+                border: '1px solid #2a2a2c',
+                borderRadius: 24,
+                padding: 20,
+              }}
+            >
+              <div
+                style={{
+                  color: '#cfcfcf',
+                  marginBottom: 16,
+                  lineHeight: 1.7,
+                  textAlign: 'justify',
+                }}
+              >
+                Voor- en nafoto&apos;s zijn voor dit project niet apart opgeladen.
+                Hieronder zie je de projectfoto&apos;s.
+              </div>
+
+              <LightboxGallery
+                title={project.title}
+                images={galleryImages}
+              />
+            </div>
           ) : (
             <div
               style={{
@@ -213,15 +257,24 @@ export default async function ProjectPage({
                 color: '#888',
               }}
             >
-              Nog geen volledige voor/na combinaties beschikbaar.
+              Nog geen voor-, na- of galerijfoto&apos;s beschikbaar.
             </div>
           )}
         </section>
 
-        {/* LOSSE VOOR EN NA FOTO'S ALS BACK-UP */}
-        {(project.beforeImages?.length > 0 || project.afterImages?.length > 0) && (
+        {/* LOSSE VOOR EN NAFOTO'S */}
+        {(looseBeforeImages.length > 0 || looseAfterImages.length > 0) && (
           <section style={{ marginBottom: 56 }}>
-            <h2 style={{ fontSize: 30, marginBottom: 20 }}>Alle voor- en nafoto&apos;s</h2>
+            <h2
+              style={{
+                fontSize: 30,
+                marginBottom: 20,
+                color: '#8df0a1',
+                fontWeight: 800,
+              }}
+            >
+              Alle voor- en nafoto&apos;s
+            </h2>
 
             <div
               style={{
@@ -230,7 +283,7 @@ export default async function ProjectPage({
                 gap: 18,
               }}
             >
-              {project.beforeImages?.map((image: any, index: number) => (
+              {looseBeforeImages.map((image: string, index: number) => (
                 <div
                   key={`before-${index}`}
                   style={{
@@ -241,7 +294,7 @@ export default async function ProjectPage({
                   }}
                 >
                   <img
-                    src={urlFor(image).width(1200).url()}
+                    src={image}
                     alt={`${project.title} voorfoto ${index + 1}`}
                     style={{
                       width: '100%',
@@ -264,7 +317,7 @@ export default async function ProjectPage({
                 </div>
               ))}
 
-              {project.afterImages?.map((image: any, index: number) => (
+              {looseAfterImages.map((image: string, index: number) => (
                 <div
                   key={`after-${index}`}
                   style={{
@@ -275,7 +328,7 @@ export default async function ProjectPage({
                   }}
                 >
                   <img
-                    src={urlFor(image).width(1200).url()}
+                    src={image}
                     alt={`${project.title} nafoto ${index + 1}`}
                     style={{
                       width: '100%',
@@ -302,20 +355,26 @@ export default async function ProjectPage({
           </section>
         )}
 
-{/* GALERIJ */}
-{project.gallery?.length > 0 && (
-  <section>
-    <h2 style={{ fontSize: 30, marginBottom: 20 }}>Galerij</h2>
+        {/* GALERIJ */}
+        {galleryImages.length > 0 && (
+          <section>
+            <h2
+              style={{
+                fontSize: 30,
+                marginBottom: 20,
+                color: '#8df0a1',
+                fontWeight: 800,
+              }}
+            >
+              Galerij
+            </h2>
 
-    <LightboxGallery
-      title={project.title}
-      images={project.gallery.map((image: any) =>
-        urlFor(image).width(1600).url()
-      )}
-    />
-  </section>
-)}
-
+            <LightboxGallery
+              title={project.title}
+              images={galleryImages}
+            />
+          </section>
+        )}
       </section>
     </main>
   )

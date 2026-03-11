@@ -38,7 +38,8 @@ async function getProjectsForService(serviceId: string) {
       category,
       description,
       beforeImages,
-      afterImages
+      afterImages,
+      gallery
     }
     `,
     { serviceId }
@@ -141,6 +142,7 @@ export default async function ServicePage({
               lineHeight: 1.7,
               maxWidth: 850,
               marginBottom: 28,
+              textAlign: 'justify',
             }}
           >
             {service.shortDescription}
@@ -174,6 +176,7 @@ export default async function ServicePage({
               lineHeight: 1.85,
               marginBottom: 42,
               whiteSpace: 'pre-line',
+              textAlign: 'justify',
             }}
           >
             {service.longDescription}
@@ -277,6 +280,17 @@ export default async function ServicePage({
                             display: 'block',
                           }}
                         />
+                      ) : project.gallery?.[0] ? (
+                        <img
+                          src={urlFor(project.gallery[0]).width(900).url()}
+                          alt={`${project.title} foto 1`}
+                          style={{
+                            width: '100%',
+                            aspectRatio: '4 / 3',
+                            objectFit: 'cover',
+                            display: 'block',
+                          }}
+                        />
                       ) : (
                         <div
                           style={{
@@ -291,6 +305,28 @@ export default async function ServicePage({
                         <img
                           src={urlFor(project.afterImages[0]).width(900).url()}
                           alt={`Na ${project.title}`}
+                          style={{
+                            width: '100%',
+                            aspectRatio: '4 / 3',
+                            objectFit: 'cover',
+                            display: 'block',
+                          }}
+                        />
+                      ) : project.gallery?.[1] ? (
+                        <img
+                          src={urlFor(project.gallery[1]).width(900).url()}
+                          alt={`${project.title} foto 2`}
+                          style={{
+                            width: '100%',
+                            aspectRatio: '4 / 3',
+                            objectFit: 'cover',
+                            display: 'block',
+                          }}
+                        />
+                      ) : project.gallery?.[0] ? (
+                        <img
+                          src={urlFor(project.gallery[0]).width(900).url()}
+                          alt={`${project.title} foto`}
                           style={{
                             width: '100%',
                             aspectRatio: '4 / 3',
@@ -339,6 +375,7 @@ export default async function ServicePage({
                           lineHeight: 1.8,
                           fontSize: 15,
                           margin: 0,
+                          textAlign: 'justify',
                         }}
                       >
                         {project.description}
