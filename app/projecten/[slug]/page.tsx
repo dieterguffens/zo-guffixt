@@ -1,5 +1,5 @@
+import BackButton from '../../../components/BackButton'
 export const dynamic = 'force-dynamic' 
-import BackButton from '../../../components/BackButton' 
 import { client } from '../../../lib/sanity'
 import imageUrlBuilder from '@sanity/image-url'
 import { notFound } from 'next/navigation'
@@ -133,18 +133,7 @@ export default async function ProjectPage({
           padding: '48px 24px',
         }}
       >
-        <a
-          href="/"
-          style={{
-            color: '#8df0a1',
-            textDecoration: 'none',
-            fontWeight: 700,
-            display: 'inline-block',
-            marginBottom: 20,
-          }}
-        >
-          ← Terug naar home
-        </a>
+        <BackButton fallbackHref="/" fallbackLabel="← Terug" />
 
         {project.service?.slug?.current && (
           <div style={{ marginBottom: 16 }}>
