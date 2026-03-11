@@ -353,23 +353,7 @@ export default async function Home() {
                 }}
               />
 
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: 16,
-                  left: 16,
-                  background: '#8df0a1',
-                  color: '#111',
-                  padding: '8px 14px',
-                  borderRadius: 999,
-                  fontWeight: 800,
-                  fontSize: 13,
-                  letterSpacing: 0.5,
-                  boxShadow: '0 6px 18px rgba(0,0,0,0.35)',
-                }}
-              >
-                20+ jaar ervaring
-              </div>
+              
             </div>
           </div>
 
