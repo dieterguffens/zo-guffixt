@@ -85,7 +85,7 @@ export default async function Home() {
                 fontWeight: 800,
               }}
             >
-              Kwalitatieve buitenaanleg zonder compromissen.
+              Kwalitatieve buitenaanleg gegarandeerd!
             </h1>
 
             <p
