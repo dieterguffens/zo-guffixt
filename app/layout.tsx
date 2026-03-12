@@ -4,6 +4,9 @@ import Link from 'next/link'
 export const metadata = {
   metadataBase: new URL('https://zoguffixt.be'),
 
+  verification: {
+  google: 'VVUjXHmUBC1ieFUdZLVaUpW7vhOln5MZZox8HLBLcRE',
+},
   title: {
     default: 'Zo Guffixt',
     template: '%s | Zo Guffixt',
